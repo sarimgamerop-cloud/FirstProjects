@@ -14,23 +14,33 @@ root.minsize(400,400)
 def Submit():
     print("Form Submitted")
     global Canvas_Entry_Names_var, Canvas_Entry_Price_var, Canvas_Entry_Paid_var
-    Due = Canvas_Entry_Paid_var.get() - Canvas_Entry_Price_var.get()
-    if Due < 1:
+    if Canvas_Entry_Paid_var.get() == "" or Canvas_Entry_Price_var.get() == "":
+        tmsg.showerror("Invalid Input", "Please Enter Product Price Values")
+        return
+    try:
+        paid = int(Canvas_Entry_Paid_var.get())
+        price = int(Canvas_Entry_Price_var.get())
+    except ValueError:
+        tmsg.showerror("Invalid Input", "Please enter valid numbers for Price and Amount Paid.")
+        return
+    Due = paid - price
+    if paid < price:
+        tmsg.showerror("Invalid Input", "Paid amount is less than price. Please enter valid values.")
         print("Please Enter Valid Values")
         return
     now = datetime.now()
-    print(f"{Canvas_Entry_Names.get(),Canvas_Entry_Price.get(),Canvas_Entry_Paid.get()}Return:{Due} , TimeDate : {now}")
+    print(f"{Canvas_Entry_Names_var.get(),Canvas_Entry_Price_var.get(),Canvas_Entry_Paid_var.get()}Return:{Due} , TimeDate : {now}")
     Message = tmsg.showinfo("Saving Info ", "Succesfully Saved !")  
 
     with open("CustomerRecords.txt" , "a") as f:
-        f.write(f"{Canvas_Entry_Names.get(),Canvas_Entry_Price.get(),Canvas_Entry_Paid.get()} Returned:{Due} , TimeDate : {now}\n ")
+        f.write(f"{Canvas_Entry_Names_var.get(),Canvas_Entry_Price_var.get(),Canvas_Entry_Paid_var.get()} Returned:{Due} , TimeDate : {now}\n ")
        
 
 def Quiting():
     print("Quiting")
     b = tmsg.askquestion("Quit?", "Do You Want To Quit? Unsaved Record will be lost")
     if(b == "yes"):
-         quit(root)
+         root.destroy()
     else:
         print("Quit Failed")
 
@@ -54,29 +64,29 @@ Canvas_Creation.create_rectangle(0,63,13,85, fill = "#32CD32", width =2)
 Canvas_Creation.create_rectangle(400,63,387,85,fill = "#32CD32" , width=2)
 
 Canvas_Creation.create_rectangle(10,10,390,60, fill = "#32CD32", width =2)
-Canvas_Creation.create_text(200,35, text ="Customer Service" , font ="headingprotrial 14 bold" , fill ="black")
+Canvas_Creation.create_text(200,35, text ="Customer Service" , font ="Calibri 14 bold" , fill ="black")
 
 Canvas_Creation.create_rectangle(10,65,390,90, fill="#32CD32",width=2)
 Canvas_Creation.create_text(200,77, text="Daily Submissions Forms Records")
 
 # Names Entries
 
-Canvas_Creation.create_text(120,130, text="Product :" , font="Raleway 9")
+Canvas_Creation.create_text(120,130, text="Product :" , font="Aldhabi 9 bold")
 Canvas_Entry_Names_var = StringVar()
 Canvas_Entry_Names = Entry(Canvas_Creation, textvariable=Canvas_Entry_Names_var)
 Window_Entry = Canvas_Creation.create_window( 220,130, window=Canvas_Entry_Names)
 
 # Price Entry 
 
-Canvas_Creation.create_text(120,155, text=" Price :" , font="Raleway 9")
-Canvas_Entry_Price_var = IntVar()
+Canvas_Creation.create_text(120,155, text=" Price :" , font="Aldhabi 9 bold")
+Canvas_Entry_Price_var = StringVar()
 Canvas_Entry_Price = Entry(Canvas_Creation, textvariable=Canvas_Entry_Price_var)
 Window_Entry = Canvas_Creation.create_window( 220,155, window=Canvas_Entry_Price)
 
 # Paid Amount
 
-Canvas_Creation.create_text(113,180, text="Amount Paid :" , font="Raleway 9")
-Canvas_Entry_Paid_var = IntVar()
+Canvas_Creation.create_text(113,180, text="Amount Paid :" , font="Aldhabi 9 bold")
+Canvas_Entry_Paid_var = StringVar()
 Canvas_Entry_Paid = Entry(Canvas_Creation, textvariable=Canvas_Entry_Paid_var)
 Window_Entry = Canvas_Creation.create_window( 220,180, window=Canvas_Entry_Paid)
 
@@ -87,7 +97,7 @@ Window_Button = Canvas_Creation.create_window(220, 215, window=Button_Submit)
 
 # MenuBar
 
-Menu_Bar = Menu(Canvas_Creation)
+Menu_Bar = Menu(root)
 root.config(menu=Menu_Bar)
 Menu_Submenu = Menu(Menu_Bar , tearoff =0)
 Menu_Submenu.add_command(label="Save To Records", command=Submit)
