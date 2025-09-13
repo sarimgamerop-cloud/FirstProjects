@@ -1,0 +1,52 @@
+from tkinter import *
+
+
+root =Tk()
+root.geometry("544x700")
+root.title("SpecialCodes! - - Calculator")
+
+
+scvalue = StringVar()
+scvalue.set("")
+
+Entry1 = Entry(root , textvariable = scvalue , font="Raleway 40 ")
+Entry1.pack(fill=X , ipady=8)
+
+
+Frame1 = Frame(root)
+Button1 = Button(Frame1, text="1" , pady=20 , padx=30 , font = "Raleway 20")
+
+Frame1.pack(side=LEFT, anchor="nw")
+Button1.pack(side=LEFT, anchor="nw")
+
+Frame2 = Frame(root)
+Button2 = Button(Frame2, text="2" , pady=20 , padx=30, font = "Raleway 20")
+
+Frame2.pack(side=LEFT, anchor="nw")
+Button2.pack(side=LEFT, anchor="nw")
+
+Frame3 = Frame(root)
+Button3 = Button(Frame3, text="3" , pady=20 , padx=30, font = "Raleway 20")
+
+Frame3.pack(side=LEFT, anchor="nw")
+Button3.pack(side=LEFT, anchor="nw")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+root.mainloop()
